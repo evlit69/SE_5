@@ -25,6 +25,7 @@
                 <textarea
                     id="text"
                     name="text"
+                    maxlength="5000"
                     placeholder="Enter your message here..."
                     required
                 >{{ original_text }}</textarea>
@@ -91,6 +92,10 @@
                         Copy result
                     </button>
                 </div>
+            {% endif %}
+
+            {% if error %}
+                <p class="error">{{ error }}</p>
             {% endif %}
 
             {% if brute_results %}

@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
+MAX_LENGTH = 5000
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -20,23 +21,28 @@ def index():
     shift = 3
     mode = "encrypt"
     brute_results = []
+    error = ""
 
     if request.method == "POST":
         original_text = request.form.get("text", "")
         mode = request.form.get("mode", "encrypt")
+        if len(original_text) > MAX_LENGTH:
+            error = "Message too long"
+        else:
+            try:
+                shift = int(request.form.get("shift", 3))
+                if not 0 <= shift <= 25:
+                    raise ValueError
+            except ValueError:
+                error = "Shift must be an integer between 0 and 25."
 
-        try:
-            shift = int(request.form.get("shift", 3))
-            if not 0 <= shift <= 25:
-                raise ValueError
-        except ValueError:
-            shift = 3
-
-        try:
-            result, brute_results = process_cipher(original_text, shift, mode)
-        except ValueError:
-            result = ""
-            brute_results = []
+            if not error:
+                try:
+                    result, brute_results = process_cipher(
+                        original_text, shift, mode
+                    )
+                except ValueError:
+                    error = "Invalid operation."
 
     return render_template(
         "index.html",
@@ -45,6 +51,7 @@ def index():
         shift=shift,
         mode=mode,
         brute_results=brute_results,
+        error=error
     )
 
 

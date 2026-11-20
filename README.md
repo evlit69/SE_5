@@ -11,7 +11,7 @@ SE_5/
 ├── requirements.txt - dependencies
 │
 ├── tests/
-│   └── test_*cypher*.py - vitest
+│   └── test_*cypher*.py - pytest
 │
 ├── templates/
 │   └── index.html - html page
