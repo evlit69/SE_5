@@ -1,6 +1,14 @@
-
 from flask import Flask, render_template, request
-from cipher import caesar_cipher, brute_force
+from cipher import process_cipher
+
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -24,16 +32,11 @@ def index():
         except ValueError:
             shift = 3
 
-        if mode == "encrypt":
-            result = caesar_cipher(original_text, shift)
-
-        elif mode == "decrypt":
-            result = caesar_cipher(
-                original_text, shift, decrypt=True
-            )
-
-        elif mode == "brute":
-            brute_results = brute_force(original_text)
+        try:
+            result, brute_results = process_cipher(original_text, shift, mode)
+        except ValueError:
+            result = ""
+            brute_results = []
 
     return render_template(
         "index.html",
@@ -41,7 +44,7 @@ def index():
         original_text=original_text,
         shift=shift,
         mode=mode,
-        brute_results=brute_results
+        brute_results=brute_results,
     )
 
 

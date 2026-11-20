@@ -1,5 +1,6 @@
+import pytest
 
-from cipher import caesar_cipher, brute_force
+from cipher import brute_force, caesar_cipher, process_cipher
 
 
 def test_encrypt():
@@ -32,3 +33,8 @@ def test_brute_force():
     assert len(results) == 26
     assert results[3]["text"] == "HELLO"
     assert results[3]["shift"] == 3
+
+
+def test_unsupported_operation():
+    with pytest.raises(ValueError):
+        process_cipher("HELLO", 3, "unknown")
