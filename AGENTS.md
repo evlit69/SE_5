@@ -13,7 +13,7 @@ SE_5/
 ├── requirements.txt - dependencies
 │
 ├── tests/
-│   └── test_*cypher*.py - pytest
+│   └── test_cypher.py - pytest
 │
 ├── templates/
 │   └── index.html - html page
