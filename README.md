@@ -1,7 +1,6 @@
 # Caesar Cipher Web Application
 
 ## Software Engineering Practice #05 Project
-___
 Simple encryption/decryption Web App
 
 ## Structure

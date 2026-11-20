@@ -1,5 +1,4 @@
 # AGENTS.md
-___
 ## Project
 Caesar Cipher Python Web Application.  
 Users can encrypt and decrypt messages;  
