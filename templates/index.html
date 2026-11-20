@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <main class="container">
+
+        <header>
+            <h1>Caesar Cipher</h1>
+            <p>Encrypt and decrypt messages using a simple substitution cipher.</p>
+        </header>
+
+        <section class="card">
+            <form method="POST">
+
+                <label for="text">Your message</label>
+
+                <textarea
+                    id="text"
+                    name="text"
+                    placeholder="Enter your message here..."
+                    required
+                >{{ original_text }}</textarea>
+
+                <div class="shift-section">
+                    <label for="shift">Shift value</label>
+
+                    <div class="shift-value">
+                        <input
+                            type="range"
+                            id="shift"
+                            name="shift"
+                            min="0"
+                            max="25"
+                            value="{{ shift }}"
+                            oninput="document.getElementById('shift-number').textContent = this.value"
+                        >
+
+                        <span id="shift-number">{{ shift }}</span>
+                    </div>
+                </div>
+
+                <label for="mode">Select operation</label>
+
+                <select id="mode" name="mode">
+                    <option value="encrypt"
+                        {% if mode == 'encrypt' %}selected{% endif %}>
+                        Encrypt
+                    </option>
+
+                    <option value="decrypt"
+                        {% if mode == 'decrypt' %}selected{% endif %}>
+                        Decrypt
+                    </option>
+
+                    <option value="brute"
+                        {% if mode == 'brute' %}selected{% endif %}>
+                        Brute Force
+                    </option>
+                </select>
+
+                <div class="buttons">
+                    <button type="submit" class="primary">
+                        Run Cipher
+                    </button>
+
+                    <a href="/" class="secondary">Clear</a>
+                </div>
+
+            </form>
+
+            {% if result %}
+                <div class="result-section">
+                    <label>Result</label>
+
+                    <div class="result-box" id="result">
+                        {{ result }}
+                    </div>
+
+                    <button
+                        type="button"
+                        class="copy-button"
+                        onclick="copyText('result')">
+                        Copy result
+                    </button>
+                </div>
+            {% endif %}
+
+            {% if brute_results %}
+                <div class="result-section">
+                    <h2>Brute Force Results</h2>
+                    <p class="description">
+                        All possible decryptions with different shift values.
+                    </p>
+
+                    <div class="brute-list">
+                        {% for item in brute_results %}
+                            <div class="brute-item">
+                                <span class="shift-label">
+                                    Shift {{ item.shift }}
+                                </span>
+
+                                <span class="brute-text">
+                                    {{ item.text }}
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="small-copy"
+                                    onclick="copyValue(this)"
+                                    data-copy="{{ item.text }}">
+                                    Copy
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+        </section>
+
+        <footer>
+            <p>Caesar Cipher Project | Python + Flask</p>
+        </footer>
+
+    </main>
+
+    <script>
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text.trim());
+        }
+
+        function copyValue(button) {
+            navigator.clipboard.writeText(button.dataset.copy);
+            button.textContent = "Copied!";
+
+            setTimeout(() => {
+                button.textContent = "Copy";
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>
