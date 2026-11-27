@@ -226,3 +226,25 @@ footer {
         flex-wrap: wrap;
     }
 }
+
+.counter-section {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #777;
+}
+
+.counter-section span {
+    white-space: nowrap;
+}
+
+/* Responsive counter layout */
+@media (max-width: 480px) {
+    .counter-section {
+        gap: 12px;
+        font-size: 12px;
+    }
+}

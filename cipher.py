@@ -2,22 +2,21 @@ def caesar_cipher(text, shift, decrypt=False):
     if decrypt:
         shift = -shift
 
-    result = ""
+    result = []
 
     for char in text:
         if "a" <= char <= "z":
             base = ord("a")
-            result += chr((ord(char) - base + shift) % 26 + base)
+            result.append(chr((ord(char) - base + shift) % 26 + base))
 
         elif "A" <= char <= "Z":
             base = ord("A")
-            result += chr((ord(char) - base + shift) % 26 + base)
+            result.append(chr((ord(char) - base + shift) % 26 + base))
 
         else:
-            result += char
+            result.append(char)
 
-    return result
-
+    return "".join(result)
 
 def brute_force(text):
     results = []
